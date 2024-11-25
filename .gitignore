@@ -1,0 +1,15 @@
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+/bin/
+/Debug/
+/Release/
+
+x64/
+
+Lancamen.c5329f60/
+
+*.tmp
