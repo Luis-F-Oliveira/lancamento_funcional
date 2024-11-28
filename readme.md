@@ -1,7 +1,7 @@
 # Lista de Trabalhos a Cumprir
 
 - [x] **Requisitar o arquivo PDF**
-- [ ] **Processar e Filtrar Dados do PDF**
+- [x] **Processar e Filtrar Dados do PDF**
 - [ ] **Criar um objeto com os dados filtrados**
-- [ ] **Exportar esse dados em extens„o `xlsx`**
-- [ ] **DocumentaÁ„o do CÛdigo**
+- [ ] **Exportar esse dados em extens√£o `xlsx`**
+- [ ] **Documenta√ß√£o do C√≥digo**
