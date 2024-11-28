@@ -2,6 +2,8 @@
 #include <windows.h>
 #include <commdlg.h>
 
+using namespace std;
+
 namespace LancamentoFuncional
 {
 	FileDialog::FileDialog()
@@ -26,8 +28,17 @@ namespace LancamentoFuncional
 		}
 	}
 
-	std::wstring FileDialog::GetPath()
+	wstring FileDialog::GetWstringPath()
 	{
 		return this->path;
 	}
+
+	string FileDialog::GetStringPath()
+	{
+		int size_needed = WideCharToMultiByte(CP_UTF8, 0, this->path.c_str(), (int)this->path.length(), nullptr, 0, nullptr, nullptr);
+		string strTo(size_needed, 0);
+		WideCharToMultiByte(CP_UTF8, 0, this->path.c_str(), (int)this->path.length(), &strTo[0], size_needed, nullptr, nullptr);
+		return strTo;
+	}
 }
+

@@ -4,16 +4,19 @@
 
 #include <string>
 
+using namespace std;
+
 namespace LancamentoFuncional
 {
 	class FileDialog
 	{
 	protected:
-		std::wstring path;
+		wstring path;
 
 	public:
 		FileDialog();
-		std::wstring GetPath();
+		wstring GetWstringPath();
+		string GetStringPath();
 	};
 }
 

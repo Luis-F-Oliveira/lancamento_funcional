@@ -128,6 +128,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FileDialog.cpp" />
+    <ClCompile Include="HandleData.cpp" />
+    <ClCompile Include="HandlePdf.cpp" />
     <ClCompile Include="LancamentoFuncional.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +138,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileDialog.h" />
+    <ClInclude Include="HandleData.h" />
+    <ClInclude Include="HandlePdf.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

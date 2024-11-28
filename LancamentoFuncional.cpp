@@ -1,10 +1,13 @@
-#include <iostream>
 #include "FileDialog.h"
+#include "HandlePdf.h"
+
+using namespace LancamentoFuncional;
 
 int main()
 {
-    LancamentoFuncional::FileDialog fileDialog;
-    std::wcout << L"Caminho do arquivo selecionado: " << fileDialog.GetPath() << std::endl;
+    FileDialog fileDialog;
+
+    HandlePdf handlePDF(fileDialog.GetStringPath());
 
     return 0;
 }
