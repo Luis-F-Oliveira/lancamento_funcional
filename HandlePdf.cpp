@@ -3,11 +3,9 @@
 #include <poppler/cpp/poppler-document.h>
 #include <poppler/cpp/poppler-page.h>
 #include <regex>
-
-#ifdef _WIN32
+#include <vector>
+#include <string>
 #include <windows.h>
-#endif // _WIN32
-
 
 using namespace std;
 using namespace poppler;
@@ -16,9 +14,7 @@ namespace LancamentoFuncional
 {
     HandlePdf::HandlePdf(string path)
     {
-        #ifdef _WIN32
         SetConsoleOutputCP(CP_UTF8);
-        #endif // _WIN32
 
         try
         {
@@ -27,28 +23,60 @@ namespace LancamentoFuncional
             cout << "Número de páginas: " << pagesNbr << endl;
 
             regex CurriculoRegex(R"(Tipo de Currículo:\s*(\d+)\s*-\s*([^-\n]+))");
+            regex ServidorRegex(R"(Servidor:\s*(\d+\.\d+)\s*-\s*([^-\n]+))");
             smatch match;
 
             for (int i = 0; i < pagesNbr; i++)
             {
                 string text = doc->create_page(i)->text().to_latin1().c_str();
+                text = regex_replace(text, regex(R"(\r?\n)"), " ");
 
-                auto matches_begin = sregex_iterator(text.begin(), text.end(), CurriculoRegex);
-                auto matches_end = sregex_iterator();
+                // Combina todas as informações em um único vetor
+                vector<pair<string, string>> curriculos;
+                vector<pair<string, string>> servidores;
 
-                if (matches_begin == matches_end)
+                // Extraindo Currículos
+                auto curriculo_matches = sregex_iterator(text.begin(), text.end(), CurriculoRegex);
+                for (auto it = curriculo_matches; it != sregex_iterator(); ++it)
                 {
-                    cerr << "Não funcionei na página " << i + 1 << endl;
+                    string tipo = (*it)[1].str();
+                    string descricao = (*it)[2].str();
+                    curriculos.emplace_back(tipo, descricao);
                 }
-                else
-                {
-                    for (auto it = matches_begin; it != matches_end; ++it)
-                    {
-                        wstring tipoCurriculo = wstring(it->str(1).begin(), it->str(1).end());
-                        wstring descricaoCurriculo = wstring(it->str(2).begin(), it->str(2).end());
 
-                        wcout << L"Tipo de Currículo encontrado: " << tipoCurriculo << endl;
-                        wcout << L"Descrição do Currículo: " << descricaoCurriculo << endl;
+                // Extraindo Servidores
+                auto servidor_matches = sregex_iterator(text.begin(), text.end(), ServidorRegex);
+                for (auto it = servidor_matches; it != sregex_iterator(); ++it)
+                {
+                    string numero = (*it)[1].str();
+                    string nome = (*it)[2].str();
+                    servidores.emplace_back(numero, nome);
+                }
+
+                // Combinar os Currículos e Servidores em ordem
+                size_t max_items = max(curriculos.size(), servidores.size());
+                for (size_t j = 0; j < max_items; ++j)
+                {
+                    cout << "-------------------------------" << endl;
+
+                    if (j < curriculos.size())
+                    {
+                        cout << "Tipo de Currículo encontrado: " << curriculos[j].first << endl;
+                        cout << "Descrição do Currículo: " << curriculos[j].second << endl;
+                    }
+                    else
+                    {
+                        cout << "Tipo de Currículo: [Não encontrado]" << endl;
+                    }
+
+                    if (j < servidores.size())
+                    {
+                        cout << "Número do Servidor: " << servidores[j].first << endl;
+                        cout << "Nome do Servidor: " << servidores[j].second << endl;
+                    }
+                    else
+                    {
+                        cout << "Servidor: [Não encontrado]" << endl;
                     }
                 }
             }

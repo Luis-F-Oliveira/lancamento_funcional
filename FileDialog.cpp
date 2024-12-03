@@ -41,4 +41,3 @@ namespace LancamentoFuncional
 		return strTo;
 	}
 }
-
